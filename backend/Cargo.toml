@@ -6,8 +6,10 @@ edition = "2024"
 [dependencies]
 argon2 = "0.6.0"
 axum = "0.8.9"
-html = "0.6.3"
 serde = { version = "1.0.229", features = ["derive"] }
 tokio = { version = "1.54.1", features = ["full"] }
 url = "2.5.8"
 validator = { version = "0.21.0", features = ["derive"] }
+
+[features]
+debug = []
