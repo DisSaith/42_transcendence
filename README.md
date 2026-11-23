@@ -28,5 +28,8 @@ Skills learning / improvement :
 ``` 
 
 
-## Ressources  
+## Ressources
+Convolutionnal Neural Network: Fidle tutorial from the CNRS :
+https://youtube.com/playlist?list=PLlI0-qAzf2SY1RLVeGykYTbTp42rVtJF7&si=LU0T-thwLDAuMtOb
+
 <ins>...</ins> : (link)
