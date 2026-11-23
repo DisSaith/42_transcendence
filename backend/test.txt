@@ -1,0 +1,12 @@
+1- Bad User
+curl -i -X POST http://localhost:3000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"username": "Al", "email": "pas-un-email", "password": "123"}'
+
+2- Good User
+curl -i -X POST http://localhost:3000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"username": "Alice", "email": "alice@42.fr", "password": "superpassword42"}'
+
+3- Check Users
+curl http://localhost:3000/api/users
