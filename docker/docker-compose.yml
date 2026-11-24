@@ -1,8 +1,8 @@
 name: dessin_rapide
 
 services:
-  PostgreSQL:
-    container_name: PostgreSQL
+  postgresql:
+    container_name: postgresql
     build: ./src/PostgreSQL
     volumes:
       - PostgreSQL_data:/var/lib/postgresql/data
