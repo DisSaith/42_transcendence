@@ -22,6 +22,7 @@ async fn main()
 
     // Routing
     let app = Router::new()
+                        .route("/", get(homepage))
                         .route("/api/health", get(health_check))
                         .route("/api/register", post(auth::register))
                         .route("/api/users", get(auth::list_users))
@@ -38,6 +39,11 @@ async fn main()
     axum::serve(listener, app)
             .await
             .expect("server error");
+}
+
+async fn homepage() -> &'static str
+{
+    "DessinRapide"
 }
 
 async fn health_check() -> &'static str

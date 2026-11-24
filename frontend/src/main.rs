@@ -1,7 +1,17 @@
 use gloo_net::http::Request;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
-use serde::Deserialize;
+use leptos_router::components::{Route, Router, Routes, A};
+use leptos_router::path;
+use serde::{Serialize, Deserialize};
+
+#[component]
+fn HomePage() -> impl IntoView
+{
+    <h1> "DessinRapide" </h1>
+    <h4> "ft_transcendence de acohaut" </h4>
+    <A href=
+}
 
 #[component]
 fn App() -> impl IntoView 
