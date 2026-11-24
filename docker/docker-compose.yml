@@ -1,11 +1,21 @@
 name: dessin_rapide
 
 services:
+
+  backend:
+    container_name: backend
+    build: ./src/backend
+    networks:
+        - back_net
+    ports:
+        - "3000:3000"
+    restart: always
+      
   postgresql:
     container_name: postgresql
-    build: ./src/PostgreSQL
+    build: ./src/postgresql
     volumes:
-      - PostgreSQL_data:/var/lib/postgresql/data
+      - postgresql_data:/var/lib/postgresql/data
     networks:
       - back_net
     restart: always
@@ -16,4 +26,4 @@ networks:
     driver: bridge
 
 volumes:
-  PostgreSQL_data:
+  postgresql_data:
