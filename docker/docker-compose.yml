@@ -1,8 +1,19 @@
-name: dessin rapide
+name: dessin_rapide
+
 services:
   PostgreSQL:
     container_name: PostgreSQL
     build: ./src/PostgreSQL
     volumes:
-      -PostgreSQL_data:var/lib/ 
+      - PostgreSQL_data:/var/lib/postgresql/data
+    networks:
+      - back_net
+    restart: always
+    env_file: .env
 
+networks:
+  back_net:
+    driver: bridge
+
+volumes:
+  PostgreSQL_data:

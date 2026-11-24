@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS test (
+	user_id SERIAL PRIMARY KEY,
+	user_name VARCHAR(50) UNIQUE NOT NULL,
+	user_pass TEXT NOT NULL
+);
