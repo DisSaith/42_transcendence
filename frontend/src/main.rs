@@ -8,15 +8,32 @@ use serde::{Serialize, Deserialize};
 #[component]
 fn HomePage() -> impl IntoView
 {
-    <h1> "DessinRapide" </h1>
-    <h4> "ft_transcendence de acohaut" </h4>
-    <A href=
+    let (count, set_count) = signal(0);
+    
+    view! {
+        <div>
+            <h1> "DessinRapide" </h1>
+            <h4> "ft_transcendence de acohaut" </h4>
+            <A href="/register">"Créer son compte"</A>
+            <hr/>
+        </div>
+        <div>
+            <button
+                on:click=move |_| {*set_count.write() += 1;}
+            >
+                "click me: " {count}
+            </button>
+            <p>
+                "Double count: "
+                {move || count.get() * 2}
+            </p>
+        </div>
+    }
 }
 
 #[component]
-fn App() -> impl IntoView 
+fn RegisterPage() -> impl IntoView
 {
-    let (count, set_count) = signal(0);
     let (name, set_name) = signal(String::new());
     let (password, set_password) = signal(String::new());
     let reset = move |_| {  
@@ -25,6 +42,9 @@ fn App() -> impl IntoView
     };
 
     view! {
+        <div>
+            <h1> "Inscription" </h1>
+        </div>
         <div>
             <input
                 type="text"
@@ -46,17 +66,31 @@ fn App() -> impl IntoView
             <p> "Votre nom: " {name}</p>
             <hr> </hr>
         </div>
-        <div>
-            <button
-                on:click=move |_| {*set_count.write() += 1;}
-            >
-                "click me: " {count}
-            </button>
-            <p>
-                "Double count: "
-                {move || count.get() * 2}
-            </p>
-        </div>
+        
+    }
+}
+
+#[component]
+fn App() -> impl IntoView 
+{
+    view! {
+        <Router>
+            // Barre de navigation affichée sur toutes les pages
+            <nav>
+                <A href="/">"Accueil"</A>
+                " | "
+                <A href="/register">"Register"</A>
+            </nav>
+            <hr/>
+
+            // Zone qui change automatiquement selon l'URL
+            <main>
+                <Routes fallback=|| "Page introuvable (404)">
+                    <Route path=path!("/") view=HomePage />
+                    <Route path=path!("/register") view=RegisterPage />
+                </Routes>
+            </main>
+        </Router>
     }
 }
 
