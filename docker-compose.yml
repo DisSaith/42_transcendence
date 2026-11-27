@@ -1,0 +1,61 @@
+name: dessin_rapide
+
+services:
+
+  nginx:
+    container_name: nginx
+    build: ./src/nginx
+    volumes:
+      - frontend_data:/dist:ro
+    networks:
+        - api_net
+    ports:
+        - "80:8080"
+    depends_on:
+        frontend:
+          condition: service_completed_successfully
+        backend:
+          condition: service_started
+    restart: always
+
+  frontend:
+    container_name: frontend
+    build: ./src/frontend
+    volumes:
+        - frontend_data:/dist
+    network_mode: none
+    restart: "no"
+
+  backend:
+    container_name: backend
+    build: ./src/backend
+    networks:
+        - db_net
+        - api_net
+    depends_on: 
+        postgresql:
+            condition: service_healthy
+    restart: always
+      
+  postgresql:
+    container_name: postgresql
+    build: ./src/postgresql
+    volumes:
+        - postgresql_data:/var/lib/postgresql/data
+    networks:
+        - db_net
+    restart: always
+    env_file: .env
+
+networks:
+
+  db_net:
+      driver: bridge
+  api_net:
+      driver: bridge
+
+volumes:
+
+  frontend_data:
+
+  postgresql_data:

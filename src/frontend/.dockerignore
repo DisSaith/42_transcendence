@@ -1,0 +1,14 @@
+**/target
+**/dist
+
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+.env
+.env.*
+
+Dockerfile
+.dockerignore
