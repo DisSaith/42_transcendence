@@ -3,29 +3,10 @@ use leptos::prelude::*;
 use leptos::task::spawn_local;
 use leptos_router::components::{Route, Router, Routes, A};
 use leptos_router::path;
-use serde::{Serialize, Deserialize};
 
-// Structure envoyée au Backend
-#[derive(Serialize)]
-struct RegisterRequest {
-    username: String,
-    email: String,
-    password: String,
-}
+mod register;
 
-// Réponse si succès dans la création du compte
-#[derive(Deserialize, Clone, Debug)]
-struct UserResponse {
-    id: usize,
-    username: String,
-    email: String,
-}
-
-// Réponse en cas d'erreur dans la création du compte
-#[derive(Deserialize)]
-struct ErrorResponse {
-    error: String,
-}
+use crate::register::RegisterPage;
 
 fn maj_backend_status(backend_status: WriteSignal<String>)
 {
@@ -43,7 +24,6 @@ fn maj_backend_status(backend_status: WriteSignal<String>)
 #[component]
 fn HomePage() -> impl IntoView
 {
-    let (count, set_count) = signal(0);
     let (backend_status, set_backend_status) = signal("chargement..".to_string());
 
     maj_backend_status(set_backend_status);
@@ -51,64 +31,16 @@ fn HomePage() -> impl IntoView
     view! {
         <div>
             <h1> "DessinRapide" </h1>
-            <h4> "ft_transcendence de acohaut & nofelten" </h4>
-            <A href="/register">"Créer son compte"</A>
+            <h4> "ft_transcendence de nofelten & acohaut" </h4>
             <hr/>
         </div>
         <div>
-            <button
-                on:click=move |_| {*set_count.write() += 1;}
-            >
-                "click me: " {count}
-            </button>
-            <p>
-                "Double count: "
-                {move || count.get() * 2}
-            </p>
+            <A href="/register">"Créer son compte"</A>
             <hr/>
         </div>
         <div>
             <h6> "Backend status : " {backend_status} </h6>
         </div>
-    }
-}
-
-#[component]
-fn RegisterPage() -> impl IntoView
-{
-    let (name, set_name) = signal(String::new());
-    let (password, set_password) = signal(String::new());
-    let reset = move |_| {  
-                    set_password.set(String::new());
-                    set_name.set(String::new()); 
-    };
-
-    view! {
-        <div>
-            <h1> "Inscription" </h1>
-        </div>
-        <div>
-            <input
-                type="text"
-                placeholder="Nom"
-                prop:value=name
-                on:input=move |ev| set_name.set(event_target_value(&ev))
-            />
-            <input
-                type="password"
-                placeholder="Mot de Passe"
-                prop:value=password
-                on:input=move |ev| set_password.set(event_target_value(&ev))
-            />
-            <button
-                on:click=reset>
-                "Reset"
-            </button>
-            <br> </br>
-            <p> "Votre nom: " {name}</p>
-            <hr> </hr>
-        </div>
-        
     }
 }
 
@@ -125,7 +57,7 @@ fn App() -> impl IntoView
             </nav>
             <hr/>
 
-            // Zone qui change automatiquement selon l'URL
+            // Différentes pages & URL
             <main>
                 <Routes fallback=|| "Page introuvable (404)">
                     <Route path=path!("/") view=HomePage />
@@ -137,8 +69,7 @@ fn App() -> impl IntoView
 }
 
 fn main() {
-    // for better panic messages in the browser console
+    // affiche les messages d'erreur dans la console du navigateur
     console_error_panic_hook::set_once();
-    
     mount_to_body(App);
 }
