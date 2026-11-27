@@ -1,6 +1,5 @@
 use gloo_net::http::Request;
 use leptos::prelude::*;
-use leptos::task::spawn_local;
 use leptos_router::components::{Route, Router, Routes, A};
 use leptos_router::path;
 
@@ -8,24 +7,36 @@ mod register;
 
 use crate::register::RegisterPage;
 
-fn maj_backend_status(backend_status: WriteSignal<String>) {
-    Effect::new(move |_| {
-        spawn_local(async move {
-            match Request::get("/api/health").send().await {
-                Ok(resp) if resp.ok() => backend_status.set(format!("Opérationnel [{}]", resp.status())),
-                Ok(resp) => backend_status.set(format!("Déconnecté [{}]", resp.status())),
-                Err(er) => backend_status.set(format!("Erreur : {}", er)),
-            }
-        });
-    });
+async fn fetch_backend_status() -> String
+{
+    match Request::get("/api/health").send().await 
+    {
+        Ok(resp) if resp.ok() => format!("Connecté [{}]", resp.status()),
+        Ok(resp) => format!("Déconnecté [{}]", resp.status()),
+        Err(err) => format!("Erreur [{}]", err)
+    }
 }
 
 #[component]
-fn HomePage() -> impl IntoView {
-    let (backend_status, set_backend_status) = signal("chargement...".to_string());
+fn BackendStatus() -> impl IntoView 
+{
+    let backend_status = LocalResource::new(move || fetch_backend_status());
 
-    maj_backend_status(set_backend_status);
+    view!{
+        <p> "Backend : "
+        { move || match backend_status.get() 
+            {
+                None => "en attente..".to_string(),
+                Some(status) => status,
+            }
+        }
+        </p>
+    }
+}
 
+#[component]
+fn HomePage() -> impl IntoView 
+{
     view! {
         <div class="qd-card">
             <h1 class="qd-title">"DessinRapide"</h1>
@@ -36,7 +47,7 @@ fn HomePage() -> impl IntoView {
             <hr class="qd-divider" />
 
             <div class="qd-status-badge">
-                "Backend : " {backend_status}
+            <BackendStatus />  // component dyw
             </div>
         </div>
     }
