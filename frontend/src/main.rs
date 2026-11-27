@@ -8,58 +8,53 @@ mod register;
 
 use crate::register::RegisterPage;
 
-fn maj_backend_status(backend_status: WriteSignal<String>)
-{
+fn maj_backend_status(backend_status: WriteSignal<String>) {
     Effect::new(move |_| {
         spawn_local(async move {
-            match Request::get("/api/health").send().await
-        {
-            Ok(resp) if resp.ok() => backend_status.set(format!("Opérationnel [{}]", resp.status())),
-            Ok(resp) => backend_status.set(format!("Déconnecté [{}]", resp.status())),
-            Err(er) => backend_status.set(format!("Error {}", er)),
-        }})
+            match Request::get("/api/health").send().await {
+                Ok(resp) if resp.ok() => backend_status.set(format!("Opérationnel [{}]", resp.status())),
+                Ok(resp) => backend_status.set(format!("Déconnecté [{}]", resp.status())),
+                Err(er) => backend_status.set(format!("Erreur : {}", er)),
+            }
         });
+    });
 }
 
 #[component]
-fn HomePage() -> impl IntoView
-{
-    let (backend_status, set_backend_status) = signal("chargement..".to_string());
+fn HomePage() -> impl IntoView {
+    let (backend_status, set_backend_status) = signal("chargement...".to_string());
 
     maj_backend_status(set_backend_status);
 
     view! {
-        <div>
-            <h1> "DessinRapide" </h1>
-            <h4> "ft_transcendence de nofelten & acohaut" </h4>
-            <hr/>
-        </div>
-        <div>
-            <A href="/register">"Créer son compte"</A>
-            <hr/>
-        </div>
-        <div>
-            <h6> "Backend status : " {backend_status} </h6>
+        <div class="qd-card">
+            <h1 class="qd-title">"DessinRapide"</h1>
+            <p class="qd-subtitle">"ft_transcendence de nofelten & acohaut"</p>
+
+            <A href="/register" attr:class="qd-btn">"Créer son compte"</A>
+
+            <hr class="qd-divider" />
+
+            <div class="qd-status-badge">
+                "Backend : " {backend_status}
+            </div>
         </div>
     }
 }
 
 #[component]
-fn App() -> impl IntoView 
-{
+fn App() -> impl IntoView {
     view! {
         <Router>
-            // Barre de navigation affichée sur toutes les pages
-            <nav>
+            // Bare de navigation affichée sur toutes les pages
+            <nav class="qd-nav">
                 <A href="/">"Accueil"</A>
-                " | "
-                <A href="/register">"Register"</A>
+                <A href="/register">"Inscription"</A>
             </nav>
-            <hr/>
-
+            
             // Différentes pages & URL
-            <main>
-                <Routes fallback=|| "Page introuvable (404)">
+            <main class="qd-container">
+                <Routes fallback=|| view! { <div class="qd-card"><h2 class="qd-title">"404 — Page introuvable"</h2></div> }>
                     <Route path=path!("/") view=HomePage />
                     <Route path=path!("/register") view=RegisterPage />
                 </Routes>

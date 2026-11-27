@@ -1,0 +1,199 @@
+:root {
+    --qd-yellow: #ffd139;
+    --qd-yellow-hover: #ffca1a;
+    --qd-white: #ffffff;
+    --qd-paper: #fffdf7;
+    --qd-ink: #111111;
+    --qd-green: #2ed573;
+    --qd-red: #ff4757;
+    --qd-blue: #1e90ff;
+    --qd-border: 3px solid #111111;
+    --qd-shadow: 5px 5px 0px #111111;
+    --qd-shadow-sm: 3px 3px 0px #111111;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--qd-yellow);
+    /* Motif subtil de feuille pointillée façon carnet de dessin */
+    background-image: radial-gradient(#e0b319 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    color: var(--qd-ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+}
+
+/* --- Barre de navigation --- */
+.qd-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.qd-nav a {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.35rem;
+    text-decoration: none;
+    color: var(--qd-ink);
+    background-color: var(--qd-white);
+    border: var(--qd-border);
+    border-radius: 999px;
+    padding: 6px 20px;
+    box-shadow: var(--qd-shadow-sm);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.qd-nav a:hover {
+    background-color: var(--qd-paper);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--qd-ink);
+}
+
+.qd-nav a:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--qd-ink);
+}
+
+/* --- Conteneur principal & Carte croquis --- */
+.qd-container {
+    width: 100%;
+    max-width: 440px;
+}
+
+.qd-card {
+    background-color: var(--qd-white);
+    border: var(--qd-border);
+    border-radius: 18px;
+    padding: 32px 28px;
+    box-shadow: var(--qd-shadow);
+    text-align: center;
+}
+
+/* --- Typographie manuscrite --- */
+.qd-title {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 3rem;
+    line-height: 1.05;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    transform: rotate(-1.5deg);
+}
+
+.qd-subtitle {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #444444;
+    margin-bottom: 24px;
+}
+
+.qd-divider {
+    border: none;
+    border-top: 2px dashed #cccccc;
+    margin: 20px 0;
+}
+
+/* --- Formulaire & Champs --- */
+.qd-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+}
+
+.qd-field label {
+    display: block;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+}
+
+.qd-input {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--qd-ink);
+    background-color: var(--qd-paper);
+    border: var(--qd-border);
+    border-radius: 12px;
+    outline: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.qd-input:focus {
+    background-color: var(--qd-white);
+    box-shadow: var(--qd-shadow-sm);
+    transform: translate(-1px, -1px);
+}
+
+/* --- Boutons tactiles façon Quick, Draw! --- */
+.qd-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.qd-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 20px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.45rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--qd-ink);
+    background-color: var(--qd-yellow);
+    border: var(--qd-border);
+    border-radius: 14px;
+    box-shadow: var(--qd-shadow-sm);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+}
+
+.qd-btn:hover {
+    background-color: var(--qd-yellow-hover);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--qd-ink);
+}
+
+.qd-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px var(--qd-ink);
+}
+
+.qd-btn-secondary {
+    background-color: var(--qd-white);
+}
+
+.qd-btn-secondary:hover {
+    background-color: #f2f2f2;
+}
+
+/* --- Messages de retour & Statut Backend --- */
+.qd-feedback {
+    margin-top: 16px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    min-height: 1.4em;
+}
+
+.qd-status-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    background-color: var(--qd-paper);
+    border: 2px solid var(--qd-ink);
+    border-radius: 999px;
+}
